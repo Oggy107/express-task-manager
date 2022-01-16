@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Oggy107/express-task-manager#readme",
   "dependencies": {
+    "dotenv": "^12.0.3",
     "express": "^4.17.2"
   },
   "devDependencies": {
