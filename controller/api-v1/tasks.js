@@ -17,12 +17,6 @@ const getSingleTask = (req, res) => {
 };
 
 const createTask = (req, res) => {
-    // if (!req.body.name)
-    // {
-    //     res.status(404).json({sucess: false, msg: "missing name value"});
-    //     return;
-    // }
-
     task.create({name: req.body.name}).then(task => {
         res.status(201).json({success: true, task});
     }).catch(error => {
@@ -32,10 +26,7 @@ const createTask = (req, res) => {
 
 const updateTask = (req, res) => {
     if (!req.body.name || !req.body.completed)
-    {
-        res.status(400).json({sucess: false, msg: "values for name and completed must be supplied"});
-        return;
-    }
+        return res.status(400).json({sucess: false, msg: "values for name and completed must be supplied"});
 
     task.updateOne({_id: req.params.id}, {name: req.body.name, completed: req.body.completed}).then(result => {
         res.json({success: true, result});
