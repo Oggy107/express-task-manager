@@ -1,7 +1,7 @@
 const task = require('../../models/tasks');
 
 const getTasks = (req, res) => {
-    task.find({}, (error, tasks) => {
+    task.find({}).then(tasks => {
         res.json({success: true, data: tasks});
     }).catch((error) => {
         res.status(404).json({success: false, msg: error.message});
