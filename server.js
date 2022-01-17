@@ -4,6 +4,7 @@ const connectDB = require('./db/connect');
 const config = require('./config');
 const tasksRouter = require('./routes/api-v1/tasks');
 const notFound = require('./middleware/notFound');
+const errorHandler = require('./middleware/errorHandler');
 
 dotenv.config();
 const connectionString = process.env.MONGO_URI;
@@ -16,6 +17,7 @@ connectDB(connectionString).then(() => {
     app.use(express.json());
     app.use(tasksRouter);
     app.use(notFound);
+    app.use(errorHandler);
 
     app.get('/', (req, res) => {
         res.redirect('/api/v1/tasks');

@@ -1,45 +1,45 @@
 const task = require('../../models/tasks');
 
-const getTasks = (req, res) => {
+const getTasks = (req, res, next) => {
     task.find({}).then(tasks => {
         res.json({success: true, data: tasks});
     }).catch(error => {
-        res.status(500).json({success: false, msg: error.message});
+        next({status: 500, msg: error.message});
     })
 };
 
-const getSingleTask = (req, res) => {
+const getSingleTask = (req, res, next) => {
     task.findById(req.params.id).then(task => {
         res.json({success: true, data: task});
     }).catch(error => {
-        res.status(400).json({success: false, msg: error.message});
+        next({status: 400, msg: error.message});
     })
 };
 
-const createTask = (req, res) => {
+const createTask = (req, res, next) => {
     task.create({name: req.body.name}).then(task => {
         res.status(201).json({success: true, task});
     }).catch(error => {
-        res.status(400).json({success: false, msg: error.message});
+        next({status: 400, msg: error.message});
     });
 };
 
-const updateTask = (req, res) => {
+const updateTask = (req, res, next) => {
     if (!req.body.name || !req.body.completed)
-        return res.status(400).json({sucess: false, msg: "values for name and completed must be supplied"});
+        return next({status: 400, msg: "values for name and completed must be supplied"});
 
     task.updateOne({_id: req.params.id}, {name: req.body.name, completed: req.body.completed}).then(result => {
         res.json({success: true, result});
     }).catch(error => {
-        res.status(400).json({success: false, msg: error.message});
+        next({status: 400, msg: error.message});
     })
 };
 
-const deleteTask = (req, res) => {
+const deleteTask = (req, res, next) => {
     task.deleteOne({_id: req.params.id}).then(result => {
         res.json({success: true, result});
     }).catch(error => {
-        res.status(400).json({success: false, msg: error.message});
+        next({status: 400, msg: error.message});
     })
 };
 
